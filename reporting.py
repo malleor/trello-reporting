@@ -16,3 +16,5 @@ def _get_lists(board_id):
   return [l['id'] for l in _get_from_trello('boards/%s/lists' % board_id, 'fields=id')]
 
 
+def _get_cards(board_id):
+  return [c['name'] for c in _get_from_trello('boards/%s/cards' % board_id, 'fields=name')]
