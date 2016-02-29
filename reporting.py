@@ -37,4 +37,19 @@ def _get_time_data(cards):
     
   get_est  = lambda card: parse(cutout(card, r'^\(.*?\)')[1:-1])
   get_real = lambda card: parse(cutout(card, r'\[.*?\]$')[1:-1])
-  return np.array([[get_est(card), get_real(card)] for card in cards])
+  
+  times = np.array([[get_est(card), get_real(card)] for card in cards])
+  times = np.ma.MaskedArray(times, mask=np.isnan(times))
+  
+  return times
+
+
+def statrep(board_id):
+  cards = _get_cards(board_id)
+  times = _get_time_data(cards)
+  est, rep = np.sum(times, axis=0)
+  
+  print 'Estimated:', est, 'MD'
+  print 'Reported: ', rep, 'MD'
+  
+  return est, rep
