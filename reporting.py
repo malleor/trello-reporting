@@ -33,7 +33,10 @@ def _get_time_data(cards):
   def parse(time):
     if time in ['', '?']:
       return np.nan
-    return float(time)
+    try:
+      return float(time)
+    except UnicodeEncodeError:
+      return np.nan
     
   get_est  = lambda card: parse(cutout(card, r'^\(.*?\)')[1:-1])
   get_real = lambda card: parse(cutout(card, r'\[.*?\]$')[1:-1])
